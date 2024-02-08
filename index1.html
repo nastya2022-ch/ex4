@@ -1,0 +1,171 @@
+User
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cryptocurrency Data</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <div id="app" class="max-w-[1000px] mx-auto">
+    <h1 class="font-bold text-3xl text-center text-blue-600 my-4">
+      Cryptocurrency Data
+    </h1>
+    <table class="w-full border-collapse border border-green-800">
+      <thead>
+        <tr>
+          <th class="border p-2">Image</th>
+          <th class="border p-2">Name</th>
+          <th class="border p-2">Description</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+  <script>
+    const row = (v, i) => {
+      return `<tr>
+          <td class="w-16 p-2 align-top border-b ${i === 0 && ' border-t'} border-gray-200"><img class="h-full w-auto" src="${v['image']}" alt="${v['name']} Logo" /></td>
+          <td class="border p-2 font-bold">${v['name']}</td>
+          <td class="border p-2 text-gray-600 text-sm">${v['description']}</td>
+        </tr>`;
+    };
+
+    const createTable = (data) => {
+      const tableBody = document.getElementById('tableBody');
+
+      // Loop through the data and create rows
+      data.forEach((item, index) => {
+        const rowHTML = row(item, index);
+
+        // Prepend the row to the existing content in tbody
+        tableBody.innerHTML = rowHTML + tableBody.innerHTML;
+      });
+    };
+
+    const url = "https://api.mtw-testnet.com/assets/all";
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => createTable(data))
+      .catch((err) => console.log(err));
+  </script>
+
+  <!-- ADA Line -->
+  <div class="flex items-center space-x-4 p-4 border border-gray-300">
+    <img class="h-12 w-auto" src="ada-logo.svg.pnj.svg" alt="ADA Logo" />
+    <div class="flex flex-col">
+      <h2 class="text-base font-bold text-black">ADA</h2>
+      <h2 class="text-base font-bold text-blue-600">Cardano</h2>
+    </div>
+    <p class="text-gray-600 text-sm ml-2">
+      Cardano is a blockchain platform for changemakers, innovators, and
+      visionaries, with the tools and technologies required to create
+      possibility for the many, as well as the few, and bring about positive
+      global change.
+    </p>
+  </div>
+
+  <!-- AVAX Line -->
+  <div class="flex items-center space-x-4 p-4 border border-gray-300">
+    <img
+      class="h-12 w-auto"
+      src="avalanche-avax-logo.png"
+      alt="AVAX Logo"
+    />
+    <div class="flex flex-col">
+      <h2 class="text-base font-bold text-black">AVAX</h2>
+      <h2 class="text-base font-bold text-blue-600">Avalanche</h2>
+    </div>
+    <p class="text-gray-600 text-sm ml-2">
+      Avalanche (AVAX) is a cryptocurrency and blockchain platform that
+      rivals Ethereum. AVAX is the native token of the Avalanche blockchain,
+      which—like Ethereum—uses smart contracts to support various blockchain
+      projects.
+    </p>
+  </div>
+
+  <!-- BTC Line -->
+  <div class="flex items-center space-x-4 p-4 border border-gray-300">
+    <img class="h-12 w-auto" src="Bitcoin.svg.png" alt="BTC Logo" />
+    <div class="flex flex-col">
+      <h2 class="text-base font-bold text-black">BTC</h2>
+      <h2 class="text-base font-bold text-blue-600">Bitcoin</h2>
+    </div>
+    <div class="text-gray-600 text-sm ml-2">
+      Bitcoin (BTC) is a cryptocurrency, a virtual currency designed to act
+      as money and a form of payment outside the control of any one person,
+      group, or entity, thus removing the need for third-party involvement
+      in financial transactions. It is rewarded to blockchain miners for
+      verifying transactions and can be purchased on several exchanges.
+    </div>
+  </div>
+
+  <!-- BCH Line -->
+  <div class="flex items-center space-x-4 p-4 border border-gray-300">
+    <img
+      class="h-12 w-auto"
+      src="bitcoin-cash-circle.svg.pnj.svg"
+      alt="BCH Logo"
+    />
+    <div class="flex flex-col">
+      <h2 class="text-base font-bold text-black">BCH</h2>
+      <h2 class="text-base font-bold text-blue-600">Bitcoin Cash</h2>
+    </div>
+    <div class="text-gray-600 text-sm ml-2">
+      Bitcoin Cash (BCH) is a cryptocurrency that was created and launched
+      to bring decentralization back to cryptocurrency. It is the result of
+      a 2017 Bitcoin "hard fork," which occurs when an existing blockchain
+      splits into two. Bitcoin Cash allows a greater number of transactions
+      in a single block than Bitcoin, which should lower fees and
+      transaction times
+    </div>
+  </div>
+
+  <!-- BNB Line -->
+  <div class="flex items-center space-x-4 p-4 border border-gray-300">
+    <img class="h-12 w-auto" src="bnb-bnb-logo.png" alt="BNB Logo" />
+    <div class="flex flex-col">
+      <h2 class="text-base font-bold text-black">BNB</h2>
+      <h2 class="text-base font-bold text-blue-600">BNB</h2>
+    </div>
+    <div class="text-gray-600 text-sm ml-2">
+      Binance Coin is the cryptocurrency issued by Binance exchange and
+      trades with the BNB symbol. As of August 2023, Binance Exchange is the
+      largest cryptocurrency exchange in the world, with a volume of $6.7
+      billion.
+    </div>
+  </div>
+
+  <!-- Dash Line -->
+  <div class="flex items-center space-x-4 p-4 border border-gray-300">
+    <img class="h-12 w-auto" src="dash-dash-logo.png" alt="Dash Logo" />
+    <div class="flex flex-col">
+      <h2 class="text-base font-bold text-black">DASH</h2>
+      <h2 class="text-base font-bold text-blue-600">Dash</h2>
+    </div>
+    <div class="text-gray-600 text-sm ml-2">
+      Dash is an open source cryptocurrency. It is an altcoin that was
+      forked from the Bitcoin protocol. It is also a decentralized
+      autonomous organization (DAO) run by a subset of its users, which are
+      called "masternodes".
+    </div>
+  </div>
+
+  <!-- Doge Line -->
+  <div class="flex items-center space-x-4 p-4 border border-gray-300">
+    <img class="h-12 w-auto" src="Dogecoin_Logo.png" alt="Doge Logo" />
+    <div class="flex flex-col">
+      <h2 class="text-base font-bold text-black">DOGE</h2>
+      <h2 class="text-base font-bold text-blue-600">Dogecoin</h2>
+    </div>
+    <div class="text-gray-600 text-sm ml-2">
+      Dogecoin (DOGE) was created as a lighthearted alternative to
+      traditional cryptocurrencies like Bitcoin in 2013. The name and Shiba
+      Inu logo are based on a meme. Unlike Bitcoin, which was designed to be
+      scarce, Dogecoin is intentionally abundant — with 10,000 new coins
+      mined every minute and no maximum supply.
+    </div>
+  </div>
+  </body>
+</html>
