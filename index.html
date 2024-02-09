@@ -1,68 +1,64 @@
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BTC/USD Prices</title>
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
+  </head>
+  <body>
     <div id="app" class="max-w-[1000px] mx-auto">
-        <h1 class="font-bold text-3xl text-center text-blue-600 my-4">BTC/USD Prices</h1>
+      <h1 class="font-bold text-3xl text-center text-blue-600 my-4">
+        Cryptocurrency Data
+      </h1>
     </div>
     <script>
-        // Function to create the HTML table structure
-        const table = (content) => `<table class="table-auto w-full">${content}</table>`;
+      const fields = ["image", "symbol", "name", "summary"]
+      const row = (k, v, i) => {
+        // complete tr string
+        //return `<tr>${Object.entries(v).filter(([k,v])=>fields.includes(k)).map(([k, v], i) => cell(k,v)).join('')}</tr>`
+        return `<tr>${fields.map((f) => cell(k, f, v)).join("")}</tr>`
+      }
 
-        // Function to create a row of table cells with conditional styling
-        const row = (data, j) => {
-            let tr = data.map((d, i) => {
-                let clr = check(j, i);
-                return `<td class="py-1 px-2 border-b border-gray-300 text-${clr} ${j === 0 && 'font-bold bg-blue-100'}">${d}</td>`;
-            }).join("");
-            return `<tr>${tr}</tr>`;
-        };
+      const cell = (sym, prop, v) => {
+        switch (prop) {
+          case "image":
+            return `<td class="w-16 p-2 align-top border-b border-gray-200"><img class="h-full w-auto" src="${v[prop]}" /></td>`
+          case "symbol":
+            return `<td class="p-2 align-top border-b border-gray-200">${sym}</td>`
+          case "name":
+            return `<td class="p-2 align-top border-b border-gray-200"><a class="text-blue-400 font-bold hover:underline" href="${v["website"]}" target="_blank">${v[prop]}</a></td>`
+          default:
+            return `<td class="p-2 align-top border-b border-gray-200">${v[prop]}</td>`
+        }
+      }
 
-        // Function to check price change and determine text color
-        const check = (j, i) => {
-            // Ignore the first two rows and cells other than the closing price (index 4)
-            if (j < 2 || i !== 4) return 'black';
+      const createTable = (data) => {
+        // create table string and insert it into "app" div before end
+        console.log(data)
+        const rows = Object.entries(data)
+          .map(([k, v], i) => row(k, v, i))
+          .join("")
 
-            // Compare current closing price with the previous week's closing price
-            return parseFloat(csvData[j][i]) > parseFloat(csvData[j - 1][i]) ? 'green' : 'red';
-        };
+        const rowHead = `<tr>${fields
+          .map(
+            (f) =>
+              `<th class="font-bold bg-gray-200">${f === "image" ? "" : f}</th>`
+          )
+          .join("")}</tr>`
 
-        // Array to store CSV data
-        const csvData = [];
+        const table = `<table class="w-full">${rowHead}${rows}</table>`
+        document.getElementById("app").insertAdjacentHTML("beforeend", table)
+      }
 
-        // Function to convert CSV data to HTML table
-        const csvToTable = (data) => {
-            // Split CSV data into lines
-            const lines = data.split("\n");
-
-            // Loop through lines and create a 2D array
-            for (let i = 0; i < lines.length; i++) {
-                csvData[i] = lines[i].split(",");
-            }
-
-            // Check the data
-            console.log(csvData);
-
-            // Generate HTML table rows
-            let rows = csvData.map((r, j) => row(r, j)).join("");
-
-            // Insert the generated table into the HTML document
-            document.getElementById("app").insertAdjacentHTML("beforeend", table(rows));
-        };
-       
-        // URL for the CSV file
-        const url = "BTC-USD.csv";
-
-        // Fetch the CSV data
-        fetch(url)
-            .then((response) => response.text())
-            .then((v) => csvToTable(v))
-            .catch((err) => console.log(err));
+      const url = "https://api.mtw-testnet.com/assets/all"
+      fetch(url)
+        .then((response) => {
+          return response.json()
+        })
+        .then((v) => createTable(v))
+        .catch((err) => console.log(err))
     </script>
-</body>
+  </body>
 </html>
